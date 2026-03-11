@@ -38,6 +38,11 @@ class FrameCaptureManager(
     private lateinit var scrollDetector: ScrollDetector
     private lateinit var imageStitcher: ImageStitcher
 
+    private val statusBarHeight: Int by lazy {
+        val resId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
+        if (resId > 0) context.resources.getDimensionPixelSize(resId) else 0
+    }
+
     private var frameIndex = 0
     /** 每隔 N 帧处理一次，根据分辨率动态设置（高分辨率用更小 N 以免漏检） */
     private var processEveryN = 3
@@ -73,14 +78,12 @@ class FrameCaptureManager(
 
         imageReader!!.setOnImageAvailableListener({ reader ->
             if (released) return@setOnImageAvailableListener
-            Log.d(TAG, "onImageAvailable() called")
             val image = try { reader.acquireLatestImage() } catch (e: Exception) { null }
             if (image == null) return@setOnImageAvailableListener
             try {
                 if (released) return@setOnImageAvailableListener
                 frameIndex++
                 if (frameIndex % processEveryN != 0) {
-                    Log.d(TAG, "Skipping frame $frameIndex (processEveryN=$processEveryN)")
                     return@setOnImageAvailableListener
                 }
                 val bitmap = imageToBitmap(image) ?: return@setOnImageAvailableListener
@@ -139,23 +142,43 @@ class FrameCaptureManager(
             return
         }
 
-        val deltaY = scrollDetector.detectScroll(prev, bitmap)
+        // 非第一帧：先去掉顶部状态栏再参与后续处理
+        val currentBitmap = if (statusBarHeight > 0 && bitmap.height > statusBarHeight) {
+            try {
+                val cropped = Bitmap.createBitmap(
+                    bitmap,
+                    0,
+                    statusBarHeight,
+                    bitmap.width,
+                    bitmap.height - statusBarHeight
+                )
+                bitmap.recycle()
+                cropped
+            } catch (e: IllegalArgumentException) {
+                // 裁剪失败则退回使用原图
+                bitmap
+            }
+        } else {
+            bitmap
+        }
+
+        val deltaY = scrollDetector.detectScroll(prev, currentBitmap)
         Log.d(TAG, "[ScrollShot] detectScroll 结果 deltaY=$deltaY")
         if (deltaY != null && deltaY > 0) {
-            val added = imageStitcher.addFrame(bitmap, deltaY)
+            val added = imageStitcher.addFrame(currentBitmap, deltaY)
             if (added) {
                 stitchCount++
                 Log.d(TAG, "[ScrollShot] 已拼接 当前切片数=$stitchCount")
                 updateFrameCount()
                 prev.recycle()
-                prevBitmap = bitmap
+                prevBitmap = currentBitmap
             } else {
                 Log.w(TAG, "[ScrollShot] addFrame 失败(超限或无效) 本帧丢弃")
-                bitmap.recycle()
+                currentBitmap.recycle()
             }
         } else {
             Log.d(TAG, "[ScrollShot] 未检测到滚动 本帧丢弃")
-            bitmap.recycle()
+            currentBitmap.recycle()
         }
     }
 
@@ -165,8 +188,16 @@ class FrameCaptureManager(
     }
 
     fun buildResult(): Bitmap? {
-        // 保存每个切片到应用目录，供应用内「查看切片」使用（ResultActivity 内可点「查看切片」进入）
-        val debugDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let { File(it, "ScrollShotDebug") }
+        // 使用固定的调试目录，并在每次生成结果前清空旧的切片，避免图片无限累积
+        val debugDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            ?.let { base ->
+                val rootDir = File(base, "ScrollShotDebug")
+                if (rootDir.exists()) {
+                    rootDir.deleteRecursively()
+                }
+                rootDir.mkdirs()
+                rootDir
+            }
         if (debugDir != null) {
             imageStitcher.debugSaveSlicesTo = debugDir
             CaptureRepository.setLastDebugDir(debugDir.absolutePath)
@@ -183,6 +214,16 @@ class FrameCaptureManager(
 
     fun release() {
         Log.d(TAG, "release()")
+        stopCaptureOnly()
+        imageStitcher.release()
+    }
+
+    /**
+     * 仅停止屏幕捕获（VirtualDisplay / ImageReader / 线程），保留已采集的帧用于后续拼接。
+     * 用于“用户点了停止后，立刻结束录屏指示，但仍可基于已有帧生成长图”。
+     */
+    fun stopCaptureOnly() {
+        Log.d(TAG, "stopCaptureOnly()")
         released = true
         virtualDisplay?.release()
         virtualDisplay = null
@@ -191,6 +232,5 @@ class FrameCaptureManager(
         handlerThread.quitSafely()
         prevBitmap?.recycle()
         prevBitmap = null
-        imageStitcher.release()
     }
 }

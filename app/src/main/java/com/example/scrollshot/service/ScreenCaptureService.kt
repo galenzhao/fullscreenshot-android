@@ -115,6 +115,26 @@ class ScreenCaptureService : Service() {
     private fun processAndStop() {
         Log.d(TAG, "processAndStop() called, current state=${CaptureRepository.state.value}")
         if (CaptureRepository.state.value is CaptureRepository.State.Processing) return
+
+        // 用户点击“停止并处理”后，先立刻停止屏幕捕获和录屏指示，再在已有帧上做拼接处理。
+        try {
+            captureManager?.stopCaptureOnly()
+        } catch (e: Exception) {
+            Log.e(TAG, "Error when stopping captureOnly", e)
+        }
+        try {
+            mediaProjection?.unregisterCallback(projectionCallback)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error when unregistering projection callback", e)
+        }
+        try {
+            mediaProjection?.stop()
+        } catch (e: Exception) {
+            Log.e(TAG, "Error when stopping MediaProjection", e)
+        } finally {
+            mediaProjection = null
+        }
+
         CaptureRepository.updateState(CaptureRepository.State.Processing)
 
         serviceScope.launch {
