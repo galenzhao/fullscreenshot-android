@@ -29,6 +29,8 @@ class ScreenCaptureService : Service() {
     companion object {
         const val EXTRA_RESULT_CODE = "extra_result_code"
         const val EXTRA_RESULT_DATA = "extra_result_data"
+        /** 顶部裁剪高度（px）。<0 表示使用系统状态栏高度；>=0 表示使用该值（可含状态栏+浮动按钮等） */
+        const val EXTRA_TOP_CROP_HEIGHT_PX = "extra_top_crop_height_px"
         const val ACTION_STOP = "action_stop"
         const val ACTION_BEGIN = "action_begin_capture"
         // 延迟开始捕获，给系统动画/通知栏收起留足时间
@@ -42,6 +44,8 @@ class ScreenCaptureService : Service() {
     private var mediaProjection: MediaProjection? = null
     private var captureManager: FrameCaptureManager? = null
     private var hasStartedCapture: Boolean = false
+    /** 用户指定的顶部裁剪高度（px），-1 表示未指定、使用系统状态栏 */
+    private var topCropHeightPx: Int = -1
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     private val projectionCallback = object : MediaProjection.Callback() {
@@ -87,6 +91,7 @@ class ScreenCaptureService : Service() {
         val resultCode = intent?.getIntExtra(EXTRA_RESULT_CODE, Activity.RESULT_OK) ?: Activity.RESULT_OK
         @Suppress("DEPRECATION")
         val resultData: Intent? = intent?.getParcelableExtra(EXTRA_RESULT_DATA)
+        topCropHeightPx = intent?.getIntExtra(EXTRA_TOP_CROP_HEIGHT_PX, -1) ?: -1
 
         // 这里不再校验 resultCode 是否等于 -1，
         // 因为 Activity.RESULT_OK 本身就是 -1，直接允许通过，只要 data 不为 null 即可
@@ -187,7 +192,11 @@ class ScreenCaptureService : Service() {
             return
         }
 
-        captureManager = FrameCaptureManager(this, projection)
+        captureManager = FrameCaptureManager(
+            this,
+            projection,
+            topCropHeightPx = if (topCropHeightPx >= 0) topCropHeightPx else null
+        )
         Log.d(TAG, "FrameCaptureManager created in beginCapture(), calling start()")
         captureManager!!.start()
         Log.d(TAG, "FrameCaptureManager.start() returned in beginCapture()")

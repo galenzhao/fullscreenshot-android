@@ -129,12 +129,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun startCaptureService(resultCode: Int, data: Intent) {
         Log.d(TAG, "startCaptureService() resultCode=$resultCode data=$data")
+        val topCropStr = binding.etTopCropHeight.text?.toString()?.trim()
+        val topCropPx = topCropStr?.toIntOrNull()
 
         val intent = Intent(this, ScreenCaptureService::class.java).apply {
             putExtra(ScreenCaptureService.EXTRA_RESULT_CODE, resultCode)
             putExtra(ScreenCaptureService.EXTRA_RESULT_DATA, data)
+            putExtra(ScreenCaptureService.EXTRA_TOP_CROP_HEIGHT_PX, topCropPx ?: -1)
         }
-        Log.d(TAG, "Calling startForegroundService() with intent=$intent")
+        Log.d(TAG, "Calling startForegroundService() with intent=$intent topCropPx=$topCropPx")
         startForegroundService(intent)
     }
 

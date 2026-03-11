@@ -19,7 +19,9 @@ import java.io.File
 
 class FrameCaptureManager(
     private val context: Context,
-    private val mediaProjection: MediaProjection
+    private val mediaProjection: MediaProjection,
+    /** 顶部要去掉的高度（px）。为 null 时使用系统状态栏高度；若目标 App 顶部还有浮动按钮等，可传入总高度（状态栏+浮动区域）。 */
+    private val topCropHeightPx: Int? = null
 ) {
     companion object {
         private const val TAG = "FrameCaptureManager"
@@ -42,6 +44,10 @@ class FrameCaptureManager(
         val resId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
         if (resId > 0) context.resources.getDimensionPixelSize(resId) else 0
     }
+
+    /** 实际用于裁剪的顶部高度：用户指定则用指定值，否则用系统状态栏高度 */
+    private val effectiveTopCropHeight: Int
+        get() = topCropHeightPx ?: statusBarHeight
 
     private var frameIndex = 0
     /** 每隔 N 帧处理一次，根据分辨率动态设置（高分辨率用更小 N 以免漏检） */
@@ -142,15 +148,16 @@ class FrameCaptureManager(
             return
         }
 
-        // 非第一帧：先去掉顶部状态栏再参与后续处理
-        val currentBitmap = if (statusBarHeight > 0 && bitmap.height > statusBarHeight) {
+        // 非第一帧：先去掉顶部（状态栏 + 可选浮动区域）再参与后续处理
+        val cropHeight = effectiveTopCropHeight
+        val currentBitmap = if (cropHeight > 0 && bitmap.height > cropHeight) {
             try {
                 val cropped = Bitmap.createBitmap(
                     bitmap,
                     0,
-                    statusBarHeight,
+                    cropHeight,
                     bitmap.width,
-                    bitmap.height - statusBarHeight
+                    bitmap.height - cropHeight
                 )
                 bitmap.recycle()
                 cropped
@@ -164,6 +171,10 @@ class FrameCaptureManager(
 
         val deltaY = scrollDetector.detectScroll(prev, currentBitmap)
         Log.d(TAG, "[ScrollShot] detectScroll 结果 deltaY=$deltaY")
+        if (released) {
+            currentBitmap.recycle()
+            return
+        }
         if (deltaY != null && deltaY > 0) {
             val added = imageStitcher.addFrame(currentBitmap, deltaY)
             if (added) {
@@ -229,8 +240,12 @@ class FrameCaptureManager(
         virtualDisplay = null
         imageReader?.close()
         imageReader = null
-        handlerThread.quitSafely()
-        prevBitmap?.recycle()
-        prevBitmap = null
+        // Recycle prevBitmap on the capture thread so we don't recycle it while
+        // an in-flight processFrame() is still using it in ScrollDetector.detectScroll().
+        handler.post {
+            prevBitmap?.recycle()
+            prevBitmap = null
+            handlerThread.quitSafely()
+        }
     }
 }

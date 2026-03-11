@@ -75,6 +75,27 @@
                 android:textColor="@color/text_secondary"
                 android:layout_marginTop="8dp" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="顶部裁剪高度(px)"
+                android:textSize="12sp"
+                android:textColor="@color/text_secondary"
+                android:layout_marginTop="16dp" />
+            <EditText
+                android:id="@+id/etTopCropHeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberSigned"
+                android:hint="留空=仅系统状态栏，或填总高度(含浮动按钮)"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_secondary"
+                android:textSize="14sp"
+                android:minHeight="48dp"
+                android:paddingHorizontal="12dp"
+                android:background="@android:drawable/edit_text"
+                android:layout_marginTop="4dp" />
+
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="match_parent"
