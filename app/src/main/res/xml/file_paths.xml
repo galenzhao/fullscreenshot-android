@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <cache-path name="scroll_shots" path="." />
+    <external-files-path name="scroll_shots_external" path="." />
+</paths>

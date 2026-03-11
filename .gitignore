@@ -1,0 +1,46 @@
+### Android/IntelliJ/Gradle 通用忽略
+
+# Gradle
+.gradle/
+build/
+**/build/
+*/build/
+
+# 本地配置
+local.properties
+*.iml
+.idea/
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+.idea/**/gradle.xml
+.idea/**/libraries
+.idea/**/caches
+.DS_Store
+
+# 日志文件
+*.log
+
+# Android Studio 生成文件
+captures/
+.externalNativeBuild/
+.cxx/
+
+# 生成的 apk/aar
+*.apk
+*.ap_
+*.aab
+*.aar
+
+# NDK / CMake
+obj/
+.vs/
+
+# 其他临时文件
+*.tmp
+*.temp
+*.swp
+*.swo
+

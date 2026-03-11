@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- 相机/截图图标 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,30 C40.69,30 30,40.69 30,54 C30,67.31 40.69,78 54,78 C67.31,78 78,67.31 78,54 C78,40.69 67.31,30 54,30Z
+M54,72 C44.06,72 36,63.94 36,54 C36,44.06 44.06,36 54,36 C63.94,36 72,44.06 72,54 C72,63.94 63.94,72 54,72Z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,42 C47.37,42 42,47.37 42,54 C42,60.63 47.37,66 54,66 C60.63,66 66,60.63 66,54 C66,47.37 60.63,42 54,42Z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M44,26 L36,26 C33.79,26 32,27.79 32,30 L32,34 L36,34 L36,30 L44,30Z"/>
+</vector>
