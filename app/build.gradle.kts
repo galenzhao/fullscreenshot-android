@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.scrollshot"
+    namespace = "com.galenzhao.scrollshot"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.scrollshot"
+        applicationId = "com.galenzhao.scrollshot"
         minSdk = 35
         targetSdk = 35
         versionCode = 1

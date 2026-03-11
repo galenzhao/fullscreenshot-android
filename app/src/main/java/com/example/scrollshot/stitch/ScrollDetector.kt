@@ -1,4 +1,4 @@
-package com.example.scrollshot.stitch
+package com.galenzhao.scrollshot.stitch
 
 import android.graphics.Bitmap
 import android.util.Log

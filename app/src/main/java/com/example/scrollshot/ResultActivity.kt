@@ -1,4 +1,4 @@
-package com.example.scrollshot
+package com.galenzhao.scrollshot
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -8,7 +8,7 @@ import android.provider.MediaStore
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.example.scrollshot.databinding.ActivityResultBinding
+import com.galenzhao.scrollshot.databinding.ActivityResultBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,13 +26,17 @@ class ResultActivity : AppCompatActivity() {
 
         resultBitmap = CaptureRepository.resultBitmap
         if (resultBitmap == null) {
-            Toast.makeText(this, "没有可用的截图结果", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.toast_no_result), Toast.LENGTH_SHORT).show()
             finish()
             return
         }
 
         binding.ivResult.setImageBitmap(resultBitmap)
-        binding.tvImageInfo.text = "尺寸：${resultBitmap!!.width} × ${resultBitmap!!.height} px"
+        binding.tvImageInfo.text = getString(
+            R.string.image_info_format,
+            resultBitmap!!.width,
+            resultBitmap!!.height
+        )
 
         binding.btnSave.setOnClickListener { saveBitmap() }
         binding.btnShare.setOnClickListener { shareBitmap() }
@@ -54,9 +58,9 @@ class ResultActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val uri = withContext(Dispatchers.IO) { saveToGallery(bmp) }
             if (uri != null) {
-                Toast.makeText(this@ResultActivity, "已保存到相册 ✓", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ResultActivity, getString(R.string.toast_saved_ok), Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this@ResultActivity, "保存失败", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ResultActivity, getString(R.string.toast_saved_fail), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -94,7 +98,7 @@ class ResultActivity : AppCompatActivity() {
                     putExtra(Intent.EXTRA_STREAM, uri)
                     addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 }
-                startActivity(Intent.createChooser(shareIntent, "分享长截图"))
+                startActivity(Intent.createChooser(shareIntent, getString(R.string.share_chooser_title)))
             }
         }
     }

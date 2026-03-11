@@ -1,3 +1,68 @@
 <resources>
+    <!-- App name -->
     <string name="app_name">ScrollShot</string>
+
+    <!-- Main screen -->
+    <string name="main_subtitle">Android scrolling screenshot tool</string>
+    <string name="status_ready">Ready</string>
+    <string name="status_hint_switch_and_scroll">Switch to the target app and scroll slowly</string>
+    <string name="status_capturing">● Capturing</string>
+    <string name="status_capturing_count">Recorded %1$d scroll segments</string>
+    <string name="status_processing">Stitching images…</string>
+    <string name="status_processing_hint">Please wait</string>
+    <string name="status_error">Error</string>
+
+    <string name="label_top_crop_height">Top crop height (px)</string>
+    <string name="hint_top_crop_height">Leave empty = status bar only, or enter total height (including floating buttons)</string>
+
+    <string name="usage_title">How to use</string>
+    <string name="usage_steps">
+        ① Tap "Start capture" and grant screen recording permission\n
+        ② Switch to the app you want to capture\n
+        ③ From the notification shade tap "Start", then slowly scroll down inside that app after closing the shade\n
+        ④ When finished, return to ScrollShot and tap "Stop and generate"
+    </string>
+
+    <string name="btn_start_capture">Start capture</string>
+    <string name="btn_stop_and_generate">Stop and generate</string>
+
+    <!-- Toasts & messages -->
+    <string name="toast_screen_permission_denied">Screen capture permission was denied</string>
+    <string name="toast_notification_required">Notification permission is required to run the foreground service</string>
+    <string name="toast_no_result">No screenshot result available</string>
+    <string name="toast_saved_ok">Saved to gallery ✓</string>
+    <string name="toast_saved_fail">Save failed</string>
+
+    <!-- Errors -->
+    <string name="error_no_content">No valid content captured. Please switch to the target app and scroll slowly before stopping.</string>
+    <string name="error_processing_failed">Processing failed</string>
+
+    <!-- Result screen -->
+    <string name="result_title">Long screenshot preview</string>
+    <string name="image_info_format">Size: %1$d × %2$d px</string>
+    <string name="btn_discard">Discard</string>
+    <string name="btn_share">Share</string>
+    <string name="btn_save_to_album">Save to gallery</string>
+    <string name="btn_view_slices">View slices</string>
+    <string name="share_chooser_title">Share long screenshot</string>
+
+    <!-- Slice viewer -->
+    <string name="slice_viewer_title">Slices &amp; result</string>
+    <string name="slice_viewer_empty">No slice data</string>
+    <string name="slice_viewer_no_dir">No slice directory provided</string>
+    <string name="slice_viewer_dir_not_exist">Directory does not exist</string>
+
+    <!-- Notifications -->
+    <string name="notif_channel_name">Screen capture service</string>
+    <string name="notif_channel_desc">ScrollShot is capturing your screen</string>
+    <string name="notif_ready_title">ScrollShot is ready</string>
+    <string name="notif_ready_text">Switch to the target app, then tap "Start capture"</string>
+    <string name="notif_action_begin">Start capture</string>
+    <string name="notif_action_cancel">Cancel</string>
+    <string name="notif_running_title">ScrollShot is running</string>
+    <string name="notif_running_text">Switch to the target app and scroll slowly, then tap "Stop"</string>
+    <string name="notif_action_stop_and_process">Stop and process</string>
+
+    <!-- Content descriptions -->
+    <string name="content_slice_preview">Slice preview</string>
 </resources>

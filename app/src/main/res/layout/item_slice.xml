@@ -24,7 +24,7 @@
             android:adjustViewBounds="true"
             android:maxHeight="400dp"
             android:scaleType="fitCenter"
-            android:contentDescription="切片预览" />
+            android:contentDescription="@string/content_slice_preview" />
 
         <TextView
             android:id="@+id/tvLabel"

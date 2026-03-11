@@ -1,4 +1,4 @@
-package com.example.scrollshot
+package com.galenzhao.scrollshot
 
 import android.graphics.Bitmap
 import kotlinx.coroutines.flow.MutableStateFlow

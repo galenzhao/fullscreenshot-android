@@ -1,4 +1,4 @@
-package com.example.scrollshot
+package com.galenzhao.scrollshot
 
 import android.Manifest
 import android.app.Activity
@@ -12,8 +12,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import com.example.scrollshot.databinding.ActivityMainBinding
-import com.example.scrollshot.service.ScreenCaptureService
+import com.galenzhao.scrollshot.databinding.ActivityMainBinding
+import com.galenzhao.scrollshot.service.ScreenCaptureService
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK && result.data != null) {
             startCaptureService(result.resultCode, result.data!!)
         } else {
-            Toast.makeText(this, "屏幕录制权限被拒绝", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.toast_screen_permission_denied), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     ) { granted ->
         Log.d(TAG, "notificationPermLauncher granted=$granted")
         if (granted) requestScreenCapture()
-        else Toast.makeText(this, "需要通知权限以运行前台服务", Toast.LENGTH_LONG).show()
+        else Toast.makeText(this, getString(R.string.toast_notification_required), Toast.LENGTH_LONG).show()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,22 +80,22 @@ class MainActivity : AppCompatActivity() {
                 binding.btnStartCapture.isVisible = true
                 binding.btnStopCapture.isVisible = false
                 binding.progressBar.isVisible = false
-                binding.tvStatus.text = "准备就绪"
-                binding.tvFrameCount.text = "切换到目标 App 并缓慢滚动内容"
+                binding.tvStatus.text = getString(R.string.status_ready)
+                binding.tvFrameCount.text = getString(R.string.status_hint_switch_and_scroll)
             }
             is CaptureRepository.State.Capturing -> {
                 binding.btnStartCapture.isVisible = false
                 binding.btnStopCapture.isVisible = true
                 binding.progressBar.isVisible = false
-                binding.tvStatus.text = "● 正在捕获"
-                binding.tvFrameCount.text = "已记录 ${state.frameCount} 个滚动片段"
+                binding.tvStatus.text = getString(R.string.status_capturing)
+                binding.tvFrameCount.text = getString(R.string.status_capturing_count, state.frameCount)
             }
             is CaptureRepository.State.Processing -> {
                 binding.btnStartCapture.isVisible = false
                 binding.btnStopCapture.isVisible = false
                 binding.progressBar.isVisible = true
-                binding.tvStatus.text = "正在拼接图像..."
-                binding.tvFrameCount.text = "请稍候"
+                binding.tvStatus.text = getString(R.string.status_processing)
+                binding.tvFrameCount.text = getString(R.string.status_processing_hint)
             }
             is CaptureRepository.State.Completed -> {
                 binding.progressBar.isVisible = false
@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
                 binding.btnStartCapture.isVisible = true
                 binding.btnStopCapture.isVisible = false
                 binding.progressBar.isVisible = false
-                binding.tvStatus.text = "出错了"
+                binding.tvStatus.text = getString(R.string.status_error)
                 binding.tvFrameCount.text = state.message
                 Toast.makeText(this, state.message, Toast.LENGTH_LONG).show()
             }

@@ -1,0 +1,69 @@
+<resources>
+    <!-- App name -->
+    <string name="app_name">ScrollShot</string>
+
+    <!-- Main screen -->
+    <string name="main_subtitle">Android 长截图工具</string>
+    <string name="status_ready">准备就绪</string>
+    <string name="status_hint_switch_and_scroll">切换到目标 App 并缓慢滚动内容</string>
+    <string name="status_capturing">● 正在捕获</string>
+    <string name="status_capturing_count">已记录 %1$d 个滚动片段</string>
+    <string name="status_processing">正在拼接图像...</string>
+    <string name="status_processing_hint">请稍候</string>
+    <string name="status_error">出错了</string>
+
+    <string name="label_top_crop_height">顶部裁剪高度(px)</string>
+    <string name="hint_top_crop_height">留空=仅系统状态栏，或填总高度(含浮动按钮)</string>
+
+    <string name="usage_title">使用步骤</string>
+    <string name="usage_steps">
+        ① 点击「开始截图」，完成屏幕录制权限授权\n
+        ② 切换到要截图的 App\n
+        ③ 在通知栏中点击「开始」，关闭通知栏后在该 App 内缓慢向下滑动\n
+        ④ 结束后返回 ScrollShot，点击「停止并生成长图」
+    </string>
+
+    <string name="btn_start_capture">开始截图</string>
+    <string name="btn_stop_and_generate">停止并生成长图</string>
+
+    <!-- Toasts & messages -->
+    <string name="toast_screen_permission_denied">屏幕录制权限被拒绝</string>
+    <string name="toast_notification_required">需要通知权限以运行前台服务</string>
+    <string name="toast_no_result">没有可用的截图结果</string>
+    <string name="toast_saved_ok">已保存到相册 ✓</string>
+    <string name="toast_saved_fail">保存失败</string>
+
+    <!-- Errors -->
+    <string name="error_no_content">未捕获到有效内容，请切换到目标 App 缓慢滚动后再停止</string>
+    <string name="error_processing_failed">处理失败</string>
+
+    <!-- Result screen -->
+    <string name="result_title">长截图预览</string>
+    <string name="image_info_format">尺寸：%1$d × %2$d px</string>
+    <string name="btn_discard">丢弃</string>
+    <string name="btn_share">分享</string>
+    <string name="btn_save_to_album">保存到相册</string>
+    <string name="btn_view_slices">查看切片</string>
+    <string name="share_chooser_title">分享长截图</string>
+
+    <!-- Slice viewer -->
+    <string name="slice_viewer_title">切片与长图</string>
+    <string name="slice_viewer_empty">暂无切片数据</string>
+    <string name="slice_viewer_no_dir">未传入切片目录</string>
+    <string name="slice_viewer_dir_not_exist">目录不存在</string>
+
+    <!-- Notifications -->
+    <string name="notif_channel_name">屏幕截图服务</string>
+    <string name="notif_channel_desc">ScrollShot 正在捕获屏幕</string>
+    <string name="notif_ready_title">ScrollShot 已就绪</string>
+    <string name="notif_ready_text">切换到目标 App，准备好后点击「开始捕获」</string>
+    <string name="notif_action_begin">开始捕获</string>
+    <string name="notif_action_cancel">取消</string>
+    <string name="notif_running_title">ScrollShot 正在运行</string>
+    <string name="notif_running_text">切换到目标 App 缓慢滚动，完成后点击「停止」</string>
+    <string name="notif_action_stop_and_process">停止并处理</string>
+
+    <!-- Content descriptions -->
+    <string name="content_slice_preview">切片预览</string>
+</resources>
+

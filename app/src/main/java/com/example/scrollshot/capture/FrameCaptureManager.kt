@@ -1,4 +1,4 @@
-package com.example.scrollshot.capture
+package com.galenzhao.scrollshot.capture
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -13,9 +13,9 @@ import android.os.HandlerThread
 import android.os.Environment
 import android.util.Log
 import android.view.WindowManager
-import com.example.scrollshot.CaptureRepository
-import com.example.scrollshot.stitch.ImageStitcher
-import com.example.scrollshot.stitch.ScrollDetector
+import com.galenzhao.scrollshot.CaptureRepository
+import com.galenzhao.scrollshot.stitch.ImageStitcher
+import com.galenzhao.scrollshot.stitch.ScrollDetector
 import java.io.File
 
 class FrameCaptureManager(

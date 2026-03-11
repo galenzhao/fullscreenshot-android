@@ -1,4 +1,4 @@
-package com.example.scrollshot
+package com.galenzhao.scrollshot
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -9,8 +9,8 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.scrollshot.databinding.ActivitySliceViewerBinding
-import com.example.scrollshot.databinding.ItemSliceBinding
+import com.galenzhao.scrollshot.databinding.ActivitySliceViewerBinding
+import com.galenzhao.scrollshot.databinding.ItemSliceBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -38,13 +38,13 @@ class SliceViewerActivity : AppCompatActivity() {
 
         val dirPath = intent.getStringExtra(EXTRA_DEBUG_DIR) ?: run {
             binding.tvEmpty.visibility = View.VISIBLE
-            binding.tvEmpty.text = "未传入切片目录"
+            binding.tvEmpty.text = getString(R.string.slice_viewer_no_dir)
             return
         }
         val dir = File(dirPath)
         if (!dir.isDirectory) {
             binding.tvEmpty.visibility = View.VISIBLE
-            binding.tvEmpty.text = "目录不存在"
+            binding.tvEmpty.text = getString(R.string.slice_viewer_dir_not_exist)
             return
         }
 
@@ -54,7 +54,7 @@ class SliceViewerActivity : AppCompatActivity() {
 
         if (files.isEmpty()) {
             binding.tvEmpty.visibility = View.VISIBLE
-            binding.tvEmpty.text = "暂无切片数据"
+            binding.tvEmpty.text = getString(R.string.slice_viewer_empty)
             return
         }
 

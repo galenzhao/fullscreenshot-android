@@ -1,4 +1,4 @@
-package com.example.scrollshot.service
+package com.galenzhao.scrollshot.service
 
 import android.app.Activity
 import android.app.Notification
@@ -13,10 +13,10 @@ import android.media.projection.MediaProjectionManager
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import com.example.scrollshot.CaptureRepository
-import com.example.scrollshot.MainActivity
-import com.example.scrollshot.R
-import com.example.scrollshot.capture.FrameCaptureManager
+import com.galenzhao.scrollshot.CaptureRepository
+import com.galenzhao.scrollshot.MainActivity
+import com.galenzhao.scrollshot.R
+import com.galenzhao.scrollshot.capture.FrameCaptureManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -149,12 +149,16 @@ class ScreenCaptureService : Service() {
                     CaptureRepository.updateState(CaptureRepository.State.Completed(result))
                 } else {
                     CaptureRepository.updateState(
-                        CaptureRepository.State.Error("未捕获到有效内容，请切换到目标 App 缓慢滚动后再停止")
+                        CaptureRepository.State.Error(getString(R.string.error_no_content))
                     )
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Error while processing result", e)
-                CaptureRepository.updateState(CaptureRepository.State.Error(e.message ?: "处理失败"))
+                CaptureRepository.updateState(
+                    CaptureRepository.State.Error(
+                        e.message ?: getString(R.string.error_processing_failed)
+                    )
+                )
             } finally {
                 Log.d(TAG, "Processing finished, cleaning up and stopping service")
                 cleanup()
@@ -213,8 +217,10 @@ class ScreenCaptureService : Service() {
     private fun createNotificationChannel() {
         Log.d(TAG, "createNotificationChannel() with id=$CHANNEL_ID")
         val channel = NotificationChannel(
-            CHANNEL_ID, "屏幕截图服务", NotificationManager.IMPORTANCE_DEFAULT
-        ).apply { description = "ScrollShot 正在捕获屏幕" }
+            CHANNEL_ID,
+            getString(R.string.notif_channel_name),
+            NotificationManager.IMPORTANCE_DEFAULT
+        ).apply { description = getString(R.string.notif_channel_desc) }
         getSystemService(NotificationManager::class.java).createNotificationChannel(channel)
     }
 
@@ -240,15 +246,15 @@ class ScreenCaptureService : Service() {
 
         if (!hasStartedCapture) {
             builder
-                .setContentTitle("ScrollShot 已就绪")
-                .setContentText("切换到目标 App，准备好后点击「开始捕获」")
-                .addAction(0, "开始捕获", beginIntent)
-                .addAction(0, "取消", stopIntent)
+                .setContentTitle(getString(R.string.notif_ready_title))
+                .setContentText(getString(R.string.notif_ready_text))
+                .addAction(0, getString(R.string.notif_action_begin), beginIntent)
+                .addAction(0, getString(R.string.notif_action_cancel), stopIntent)
         } else {
             builder
-                .setContentTitle("ScrollShot 正在运行")
-                .setContentText("切换到目标 App 缓慢滚动，完成后点击「停止」")
-                .addAction(0, "停止并处理", stopIntent)
+                .setContentTitle(getString(R.string.notif_running_title))
+                .setContentText(getString(R.string.notif_running_text))
+                .addAction(0, getString(R.string.notif_action_stop_and_process), stopIntent)
         }
 
         return builder.build()
