@@ -73,7 +73,9 @@ class ScrollDetector(private val frameWidth: Int, private val frameHeight: Int) 
                 return null
             }
 
-            val delta = (scaledDelta / config.scale).roundToInt()
+            var delta = (scaledDelta / config.scale).roundToInt()
+            // 基于完整分辨率在粗略结果附近做一小段精修，减少由于下采样与取整带来的 1～2px 误差
+            delta = refineDeltaOnOriginal(prevBitmap, currBitmap, delta)
             if (delta < config.minScrollPx) {
                 Log.d(TAG, "no_scroll: delta too small delta=$delta minScrollPx=${config.minScrollPx}")
                 return null
@@ -84,6 +86,73 @@ class ScrollDetector(private val frameWidth: Int, private val frameHeight: Int) 
             scaledPrev.recycle()
             scaledCurr.recycle()
         }
+    }
+
+    /**
+     * 在原始分辨率上对 delta 做细化搜索。
+     *
+     * 做法：在粗略 delta 附近的一个很小范围内（±3 像素）用 SAD 比较一块小区域，
+     * 选出误差最小的 delta，基本可以把累计的 1～2px 取整误差消掉。
+     */
+    private fun refineDeltaOnOriginal(
+        prevBitmap: Bitmap,
+        currBitmap: Bitmap,
+        coarseDelta: Int,
+        radius: Int = 3
+    ): Int {
+        if (coarseDelta <= 0 || radius <= 0) return coarseDelta
+
+        val w = minOf(prevBitmap.width, currBitmap.width)
+        val h = minOf(prevBitmap.height, currBitmap.height)
+        if (w <= 0 || h <= 0) return coarseDelta
+
+        val deltaMin = maxOf(1, coarseDelta - radius)
+        val deltaMax = minOf(coarseDelta + radius, h - 1)
+        if (deltaMax <= deltaMin) return coarseDelta
+
+        // 选取靠近屏幕中下部的一块区域做对齐，避开顶部状态栏等易变化区域
+        val baseY = (h * 0.65f).toInt().coerceIn(0, h - 1)
+        val sampleHeight = minOf(80, h - baseY - 1).coerceAtLeast(40)
+        if (sampleHeight <= 0) return coarseDelta
+
+        // 宽度上按步长采样，避免整幅遍历造成不必要开销
+        val stepX = (w / 64).coerceAtLeast(1)
+
+        var bestDelta = coarseDelta
+        var minSad = Long.MAX_VALUE
+
+        for (delta in deltaMin..deltaMax) {
+            var sad = 0L
+            val yEnd = baseY + sampleHeight
+            for (y in baseY until yEnd) {
+                val cy = y - delta
+                if (cy < 0) break
+                for (x in 0 until w step stepX) {
+                    val p1 = prevBitmap.getPixel(x, y)
+                    val p2 = currBitmap.getPixel(x, cy)
+
+                    val r1 = (p1 shr 16) and 0xFF
+                    val g1 = (p1 shr 8) and 0xFF
+                    val b1 = p1 and 0xFF
+                    val r2 = (p2 shr 16) and 0xFF
+                    val g2 = (p2 shr 8) and 0xFF
+                    val b2 = p2 and 0xFF
+
+                    sad += kotlin.math.abs(r1 - r2) +
+                            kotlin.math.abs(g1 - g2) +
+                            kotlin.math.abs(b1 - b2)
+                }
+            }
+            if (sad < minSad) {
+                minSad = sad
+                bestDelta = delta
+            }
+        }
+
+        if (bestDelta != coarseDelta) {
+            Log.d(TAG, "refine: coarse=$coarseDelta refined=$bestDelta h=$h w=$w")
+        }
+        return bestDelta
     }
 
     private fun computeSAD(a: IntArray, b: IntArray): Long {
