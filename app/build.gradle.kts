@@ -1,3 +1,7 @@
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -8,11 +12,22 @@ android {
     compileSdk = 35
 
     defaultConfig {
+        // 自动根据当前时间生成版本号
+        val now = LocalDateTime.now(ZoneOffset.UTC)
+
+        // 作为展示用的版本名：yyyyMMddHHmm（年月日时分）
+        val versionNameFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm")
+        versionName = now.format(versionNameFormatter)
+
+        // 作为内部用的 versionCode：以 2024-01-01 00:00 为基准的“分钟数”
+        // 保证是递增的 Int，不会超过 Android 的上限
+        val base = LocalDateTime.of(2024, 1, 1, 0, 0)
+        val minutesSinceBase =
+            ((now.toEpochSecond(ZoneOffset.UTC) - base.toEpochSecond(ZoneOffset.UTC)) / 60).toInt()
         applicationId = "com.galenzhao.scrollshot"
-        minSdk = 35
+        minSdk = 30
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = minutesSinceBase
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

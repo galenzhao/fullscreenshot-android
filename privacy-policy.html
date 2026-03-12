@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ScrollShot 隐私政策 / Privacy Policy</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #0f172a;
+      --bg-alt: #020617;
+      --card-bg: #020617;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #38bdf8;
+      --border: rgba(148, 163, 184, 0.35);
+      --shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "SF Pro Display", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1f2937 0, #020617 52%, #000 100%);
+      color: var(--text);
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+
+    .page {
+      max-width: 1080px;
+      width: 100%;
+      margin: auto;
+    }
+
+    .shell {
+      border-radius: 28px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: radial-gradient(circle at 0 0, #1f2937 0, #020617 45%, #000 100%);
+      box-shadow: var(--shadow);
+      padding: 1px;
+      backdrop-filter: blur(26px);
+    }
+
+    .shell-inner {
+      border-radius: 27px;
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.28), transparent 55%),
+        radial-gradient(circle at 100% 0, rgba(94, 234, 212, 0.16), transparent 55%),
+        radial-gradient(circle at 0 100%, rgba(244, 114, 182, 0.12), transparent 55%),
+        linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.98));
+      padding: 24px 22px 26px;
+    }
+
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+      margin-bottom: 20px;
+    }
+
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .app-name {
+      font-size: 26px;
+      font-weight: 650;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill {
+      font-size: 12px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--muted);
+      background: radial-gradient(circle at 0 0, rgba(148, 163, 184, 0.2), transparent 60%);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .pill-dot-cn,
+    .pill-dot-en {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+    }
+
+    .pill-dot-cn {
+      background: #f97316;
+    }
+
+    .pill-dot-en {
+      background: #22c55e;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .meta {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: right;
+      min-width: 160px;
+    }
+
+    .meta strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .content-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      border-radius: 20px;
+      background: radial-gradient(circle at 0 0, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.98));
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      padding: 18px 18px 20px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.7);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.14), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(56, 189, 248, 0.1), transparent 55%);
+      opacity: 0.85;
+      pointer-events: none;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lang-tag {
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+    }
+
+    .section {
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #e5e7eb;
+    }
+
+    .section p {
+      margin: 0 0 4px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .section ul {
+      margin: 0 0 4px 1.1em;
+      padding: 0;
+      list-style: disc;
+    }
+
+    .section ul li {
+      margin: 0 0 3px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="shell">
+      <div class="shell-inner">
+        <header class="header">
+          <div class="title-block">
+            <div class="app-name">
+              ScrollShot
+              <span class="pill">
+                <span class="pill-dot-cn"></span>
+                中文
+                <span style="opacity: 0.35; margin: 0 3px;">/</span>
+                <span class="pill-dot-en"></span>
+                English
+              </span>
+            </div>
+            <div class="subtitle">
+              隐私政策 · Privacy Policy
+            </div>
+          </div>
+          <div class="meta">
+            <div><strong>Last updated</strong> · 2026-03-12</div>
+            <div>Contact · <a href="mailto:me@zhenggangzhao.org">me@zhenggangzhao.org</a></div>
+          </div>
+        </header>
+
+        <section class="content-grid">
+          <!-- 中文 -->
+          <article class="card" aria-label="隐私政策（中文）">
+            <div class="card-inner">
+              <div class="card-header">
+                <h2 class="card-title">
+                  隐私政策
+                </h2>
+                <span class="lang-tag">ZH-CN</span>
+              </div>
+
+              <div class="section">
+                <div class="section-title">一、适用范围</div>
+                <p>
+                  本隐私政策适用于由 <strong>ScrollShot</strong>（以下简称“本应用”）提供的服务。我们非常重视您的隐私和数据安全，并承诺尽量减少对您个人信息的收集和使用。
+                </p>
+              </div>
+
+              <div class="section">
+                <div class="section-title">二、我们收集哪些信息</div>
+                <p>
+                  在您使用本应用的过程中，<strong>我们不会收集、存储或上传可识别您个人身份的信息</strong>，包括但不限于：姓名、邮箱、电话号码、通讯录、位置信息等。
+                </p>
+                <p>本应用仅在本地处理以下数据，用于实现核心功能：</p>
+                <ul>
+                  <li>
+                    <strong>屏幕内容 / 截图内容</strong>：仅用于生成长截图、拼接图片等功能；仅在您的设备本地进行处理，不会被上传至任何服务器。
+                  </li>
+                  <li>
+                    <strong>应用必要日志（如有）</strong>：仅用于在本地排查错误或优化体验；不包含可识别您个人身份的信息；不会上传到服务器。
+                  </li>
+                </ul>
+              </div>
+
+              <div class="section">
+                <div class="section-title">三、权限使用说明</div>
+                <p>本应用可能会请求以下系统权限，仅用于实现相应功能，不会用于与功能无关的目的：</p>
+                <ul>
+                  <li>
+                    <strong>存储 / 媒体访问权限（如有）</strong>：用于保存生成的长截图、读取您选择的图片进行拼接；仅访问您选择的文件或本应用生成的文件。
+                  </li>
+                  <li>
+                    <strong>屏幕捕获 / 录屏相关权限（如有）</strong>：用于捕获当前屏幕内容以生成长截图或滚动截图；仅在您主动发起操作时捕获当前屏幕画面；仅在本地用于合成图片，不会上传。
+                  </li>
+                </ul>
+                <p>如后续版本增加新的权限或用途，我们会在更新版本中明确告知您。</p>
+              </div>
+
+              <div class="section">
+                <div class="section-title">四、数据的存储与传输</div>
+                <ul>
+                  <li>本应用 <strong>不自建服务器，不会将您的数据上传到任何远程服务器</strong>。</li>
+                  <li>截图、拼接结果等数据均 <strong>保存在您的设备本地存储中</strong>，您可以随时删除。</li>
+                  <li>除非您通过第三方应用（如社交平台、网盘等）主动分享图片，否则本应用不会将数据传输给任何第三方。</li>
+                </ul>
+              </div>
+
+              <div class="section">
+                <div class="section-title">五、第三方服务</div>
+                <p>当前版本本应用<strong>不集成任何第三方广告、统计或分析 SDK</strong>。</p>
+                <p>
+                  如未来版本接入第三方服务（如广告平台、统计分析工具等），我们将更新本隐私政策，并在应用内或应用商店页面中额外说明第三方服务的名称、类型及其数据处理方式。
+                </p>
+              </div>
+
+              <div class="section">
+                <div class="section-title">六、儿童隐私</div>
+                <p>本应用面向普通用户，<strong>未专门以 13 岁以下儿童为目标用户</strong>。</p>
+                <p>我们不会主动收集任何儿童的个人信息。</p>
+                <p>
+                  如您认为我们在未取得监护人同意的情况下收集了儿童信息，请通过下方联系方式与我们取得联系，我们会尽快删除相关数据（如有）。
+                </p>
+              </div>
+
+              <div class="section">
+                <div class="section-title">七、您的权利</div>
+                <p>由于本应用不收集可识别个人身份的信息，一般情况下：</p>
+                <ul>
+                  <li>无需进行账号注册或登录；</li>
+                  <li>无需提交删除账号或导出数据的请求。</li>
+                </ul>
+                <p>
+                  您可以在系统设置中卸载本应用，以删除本应用在本机存储的全部数据（截图文件除外，如需一并删除，请在文件管理中手动删除相关图片）。
+                </p>
+              </div>
+
+              <div class="section">
+                <div class="section-title">八、本隐私政策的更新</div>
+                <p>我们可能会在必要时更新本隐私政策。</p>
+                <p>当政策发生实质性变更时，我们会通过应用更新说明或应用商店页面进行提示。</p>
+                <p>继续使用本应用即表示您同意受更新后的隐私政策约束。</p>
+              </div>
+
+              <div class="section">
+                <div class="section-title">九、联系我们</div>
+                <p>如果您对本隐私政策或数据保护有任何疑问、意见或请求，请通过以下方式联系我们：</p>
+                <p>电子邮箱：<a href="mailto:me@zhenggangzhao.org">me@zhenggangzhao.org</a></p>
+              </div>
+            </div>
+          </article>
+
+          <!-- English -->
+          <article class="card" aria-label="Privacy Policy (English)">
+            <div class="card-inner">
+              <div class="card-header">
+                <h2 class="card-title">
+                  Privacy Policy
+                </h2>
+                <span class="lang-tag">EN</span>
+              </div>
+
+              <div class="section">
+                <div class="section-title">1. Scope</div>
+                <p>
+                  This Privacy Policy applies to the mobile application <strong>ScrollShot</strong> (hereinafter referred to as “the App”).
+                  We value your privacy and are committed to minimizing the collection and use of your personal data.
+                </p>
+              </div>
+
+              <div class="section">
+                <div class="section-title">2. Information We Collect</div>
+                <p>
+                  When you use the App, <strong>we do not collect, store, or upload any personally identifiable information (PII)</strong> such as your name, email address, phone number, contacts, or precise location.
+                </p>
+                <p>The App only processes the following data locally on your device in order to provide its core functionalities:</p>
+                <ul>
+                  <li>
+                    <strong>Screen content / screenshots</strong>: used solely to capture and generate long screenshots or stitched images; processing is performed locally on your device only and is not uploaded to any server.
+                  </li>
+                  <li>
+                    <strong>Basic app logs (if any)</strong>: used only to diagnose errors and improve user experience; they do not contain personally identifiable information and are not uploaded to any server.
+                  </li>
+                </ul>
+              </div>
+
+              <div class="section">
+                <div class="section-title">3. Use of Permissions</div>
+                <p>The App may request certain system permissions solely for functional purposes:</p>
+                <ul>
+                  <li>
+                    <strong>Storage / Media access (if used)</strong>: to save generated long screenshots and to read images you select for stitching; access is limited to files you select or files generated by the App.
+                  </li>
+                  <li>
+                    <strong>Screen capture / screen recording (if used)</strong>: to capture the current screen for creating long or scrolling screenshots; only the screen content at the moment you initiate the action is captured, and it is used locally to generate images and not uploaded.
+                  </li>
+                </ul>
+                <p>If we introduce any new permissions or purposes in future versions, we will clearly disclose them in the update.</p>
+              </div>
+
+              <div class="section">
+                <div class="section-title">4. Data Storage and Transfer</div>
+                <ul>
+                  <li>The App <strong>does not host its own servers and does not upload your data to any remote server</strong>.</li>
+                  <li>Screenshots and stitched images are <strong>stored locally on your device</strong>, and you may delete them at any time.</li>
+                  <li>Unless you choose to share images via third-party apps (such as social networks or cloud storage), the App will not transmit your data to any third party.</li>
+                </ul>
+              </div>
+
+              <div class="section">
+                <div class="section-title">5. Third-Party Services</div>
+                <p>In the current version, the App <strong>does not integrate any third-party advertising, analytics, or tracking SDKs</strong>.</p>
+                <p>
+                  If we integrate third-party services in the future (e.g., ad networks, analytics tools), we will update this Privacy Policy and clearly disclose the names, types, and data practices of such services.
+                </p>
+              </div>
+
+              <div class="section">
+                <div class="section-title">6. Children’s Privacy</div>
+                <p>The App is designed for general audiences and <strong>is not specifically directed to children under the age of 13</strong>.</p>
+                <p>We do not knowingly collect personal information from children.</p>
+                <p>
+                  If you believe we have inadvertently collected information from a child, please contact us using the information below, and we will promptly delete such data (if any).
+                </p>
+              </div>
+
+              <div class="section">
+                <div class="section-title">7. Your Rights and Choices</div>
+                <p>Because the App does not collect personally identifiable information:</p>
+                <ul>
+                  <li>There is no need to create or log into an account.</li>
+                  <li>There is generally no need to request data export or deletion.</li>
+                </ul>
+                <p>
+                  You may uninstall the App from your device at any time to remove all App-related data stored by the App
+                  (excluding screenshots saved in your gallery; you may delete those manually if needed).
+                </p>
+              </div>
+
+              <div class="section">
+                <div class="section-title">8. Changes to This Privacy Policy</div>
+                <p>We may update this Privacy Policy from time to time.</p>
+                <p>When material changes are made, we will notify you via the app update notes or the app store listing.</p>
+                <p>Your continued use of the App after such changes constitutes your acceptance of the updated Privacy Policy.</p>
+              </div>
+
+              <div class="section">
+                <div class="section-title">9. Contact Us</div>
+                <p>If you have any questions, comments, or requests regarding this Privacy Policy or data protection, please contact us at:</p>
+                <p>Email: <a href="mailto:me@zhenggangzhao.org">me@zhenggangzhao.org</a></p>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <div class="footer-note">
+          You may link this page directly from your app store listing as the official privacy policy for ScrollShot.
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
+
